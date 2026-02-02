@@ -1,46 +1,277 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>Mi sitio de música</title>
+<meta charset="UTF-8">
+<title>Mi Música Profesional</title>
+<style>
+  body {
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: white;
+    background: url('fondo.png') no-repeat center center fixed;
+    background-size: cover;
+  }
+
+  h1 {
+    text-align: center;
+    margin: 30px 0 10px;
+    font-size: 3em;
+    letter-spacing: 2px;
+    text-shadow: 0 0 10px #000;
+  }
+
+  h2 {
+    margin: 20px 0 10px;
+    padding-left: 20px;
+    border-left: 4px solid #1db954;
+    font-weight: 600;
+    text-shadow: 0 0 5px #000;
+  }
+
+  .categoria {
+    max-width: 700px;
+    margin: 0 auto 40px;
+    padding: 0 10px;
+  }
+
+  .cancion {
+    background: rgba(28,28,28,0.7);
+    margin: 10px 0;
+    padding: 15px 20px;
+    border-radius: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: transform 0.2s, background 0.2s;
+    cursor: pointer;
+  }
+
+  .cancion:hover {
+    transform: translateY(-5px);
+    background: rgba(42,42,42,0.8);
+  }
+
+  .btn-play {
+    background: #1db954;
+    border: none;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 50px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+
+  .btn-play:hover {
+    background: #1ed760;
+  }
+
+  #player-container {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(18,18,18,0.95);
+    display: flex;
+    align-items: center;
+    padding: 10px 20px;
+    border-top: 1px solid #333;
+    flex-wrap: wrap;
+    z-index: 100;
+  }
+
+  #player-info {
+    flex: 2;
+    min-width: 200px;
+  }
+
+  #player-name {
+    font-weight: bold;
+  }
+
+  #controls {
+    flex: 1;
+    display: flex;
+    justify-content: flex-end;
+    min-width: 200px;
+    gap: 10px;
+  }
+
+  .progress-bar {
+    width: 100%;
+    height: 5px;
+    background: rgba(255,255,255,0.2);
+    border-radius: 2px;
+    margin-top: 5px;
+  }
+
+  .progress {
+    height: 5px;
+    background: #1db954;
+    width: 0%;
+    border-radius: 2px;
+    transition: width 0.1s linear;
+  }
+
+  #visualizer {
+    position: fixed;
+    bottom: 70px;
+    left: 0;
+    width: 100%;
+    height: 100px;
+    background: transparent;
+    pointer-events: none;
+    z-index: 50;
+  }
+</style>
 </head>
 <body>
-  <h1>Mi música</h1>
 
-  <!-- SALSA -->
-  <h2>Salsa</h2>
-  <audio controls>
-    <source src="music/salsa/archivo1.mp3" type="audio/mpeg">
-  </audio>
+<h1>Mi Música Profesional</h1>
 
-  <!-- MERENGUE -->
-  <h2>Merengue</h2>
-  <audio controls>
-    <source src="music/merengue/archivo1.mp3" type="audio/mpeg">
-  </audio>
-
-  <!-- RAP -->
+<!-- CATEGORÍAS Y CANCIONES -->
+<div class="categoria">
   <h2>Rap</h2>
-  <audio controls>
-    <source src="music/rap/y entonces me acorde.mp3" type="audio/mpeg">
-  </audio>
+  <div class="cancion" data-src="music/rap/y-entonces-me-acorde.mp3">y-entonces-me-acorde.mp3</div>
+</div>
 
-  <!-- ROCK -->
+<div class="categoria">
   <h2>Rock</h2>
-  <audio controls>
-    <source src="music/rock/slow.mp3" type="audio/mpeg">
-  </audio>
+  <div class="cancion" data-src="music/rock/slow.mp3">slow.mp3</div>
+</div>
 
-  <!-- BALADAS -->
+<div class="categoria">
   <h2>Baladas</h2>
-  <audio controls>
-    <source src="music/baladas/tu amor.mp3" type="audio/mpeg">
-  </audio>
+  <div class="cancion" data-src="music/baladas/tu-amor.mp3">tu-amor.mp3</div>
+</div>
 
-  <!-- OTRO -->
+<div class="categoria">
+  <h2>Salsa</h2>
+  <div class="cancion" data-src="music/salsa/archivo1.mp3">archivo1.mp3</div>
+</div>
+
+<div class="categoria">
+  <h2>Merengue</h2>
+  <div class="cancion" data-src="music/merengue/archivo1.mp3">archivo1.mp3</div>
+</div>
+
+<div class="categoria">
   <h2>Otro</h2>
-  <audio controls>
-    <source src="music/otro/archivo1.mp3" type="audio/mpeg">
-  </audio>
+  <div class="cancion" data-src="music/otro/archivo1.mp3">archivo1.mp3</div>
+</div>
+
+<!-- VISUALIZADOR -->
+<canvas id="visualizer"></canvas>
+
+<!-- REPRODUCTOR GLOBAL -->
+<div id="player-container">
+  <div id="player-info">
+    Reproduciendo: <span id="player-name">Ninguna</span>
+    <div class="progress-bar">
+      <div class="progress" id="progress"></div>
+    </div>
+  </div>
+  <div id="controls">
+    <button id="prev" class="btn-play">⏮</button>
+    <button id="playpause" class="btn-play">▶/⏸</button>
+    <button id="next" class="btn-play">⏭</button>
+  </div>
+</div>
+
+<audio id="player"></audio>
+
+<script>
+const player = document.getElementById('player');
+const playerName = document.getElementById('player-name');
+const progress = document.getElementById('progress');
+const playpause = document.getElementById('playpause');
+const prev = document.getElementById('prev');
+const next = document.getElementById('next');
+const canciones = Array.from(document.querySelectorAll('.cancion'));
+let currentIndex = -1;
+
+// Reproducir canción
+function playSong(index){
+  const cancion = canciones[index];
+  const src = cancion.getAttribute('data-src');
+  player.src = src;
+  player.play();
+  playerName.textContent = cancion.textContent;
+  currentIndex = index;
+}
+
+// Click en canciones
+canciones.forEach((c,i) => {
+  c.addEventListener('click', () => playSong(i));
+});
+
+// Controles
+playpause.addEventListener('click', () => {
+  if(player.paused) player.play();
+  else player.pause();
+});
+
+next.addEventListener('click', () => {
+  if(currentIndex < canciones.length-1) playSong(currentIndex+1);
+});
+
+prev.addEventListener('click', () => {
+  if(currentIndex > 0) playSong(currentIndex-1);
+});
+
+// Barra de progreso
+player.addEventListener('timeupdate', () => {
+  if(player.duration){
+    const percent = (player.currentTime / player.duration) * 100;
+    progress.style.width = percent + '%';
+  }
+});
+
+// Visualizador de ondas suavizado
+const canvas = document.getElementById('visualizer');
+const ctx = canvas.getContext('2d');
+canvas.width = window.innerWidth;
+canvas.height = 100;
+
+const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+const analyser = audioCtx.createAnalyser();
+analyser.fftSize = 256;
+let source;
+
+function connectAudio() {
+  if(!source){
+    source = audioCtx.createMediaElementSource(player);
+    source.connect(analyser);
+    analyser.connect(audioCtx.destination);
+  }
+}
+
+function drawVisualizer() {
+  requestAnimationFrame(drawVisualizer);
+  const bufferLength = analyser.frequencyBinCount;
+  const dataArray = new Uint8Array(bufferLength);
+  analyser.getByteFrequencyData(dataArray);
+
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  const barWidth = (canvas.width / bufferLength) * 2.5;
+  let x = 0;
+
+  for(let i = 0; i < bufferLength; i++){
+    const barHeight = dataArray[i];
+    const r = 29;
+    const g = 185;
+    const b = 84;
+    ctx.fillStyle = `rgb(${r},${g},${b})`;
+    ctx.fillRect(x, canvas.height-barHeight, barWidth, barHeight);
+    x += barWidth + 1;
+  }
+}
+
+player.addEventListener('play', () => {
+  connectAudio();
+  drawVisualizer();
+});
+</script>
+
 </body>
 </html>
