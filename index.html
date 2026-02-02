@@ -258,10 +258,7 @@ function drawVisualizer() {
 
   for(let i = 0; i < bufferLength; i++){
     const barHeight = dataArray[i];
-    const r = 29;
-    const g = 185;
-    const b = 84;
-    ctx.fillStyle = `rgb(${r},${g},${b})`;
+    ctx.fillStyle = `rgb(29,185,84)`;
     ctx.fillRect(x, canvas.height-barHeight, barWidth, barHeight);
     x += barWidth + 1;
   }
