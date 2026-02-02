@@ -1,55 +1,46 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<title>Mi Música</title>
-<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <title>Mi sitio de música</title>
 </head>
 <body>
+  <h1>Mi música</h1>
 
-<section class="hero">
-  <h1>🎧 Mi Música</h1>
-  <p>Escucha. Siente. Vibra.</p>
-</section>
+  <!-- SALSA -->
+  <h2>Salsa</h2>
+  <audio controls>
+    <source src="music/salsa/archivo1.mp3" type="audio/mpeg">
+  </audio>
 
-<section class="music">
+  <!-- MERENGUE -->
+  <h2>Merengue</h2>
+  <audio controls>
+    <source src="music/merengue/archivo1.mp3" type="audio/mpeg">
+  </audio>
 
-  <div class="genre"><h2>Salsa</h2>
-    <div class="track" data-src="music/salsa1.mp3">Salsa 1</div>
-  </div>
+  <!-- RAP -->
+  <h2>Rap</h2>
+  <audio controls>
+    <source src="music/rap/y-entonces-me-acorde.mp3" type="audio/mpeg">
+  </audio>
 
-  <div class="genre"><h2>Merengue</h2>
-    <div class="track" data-src="music/merengue1.mp3">Merengue 1</div>
-  </div>
+  <!-- ROCK -->
+  <h2>Rock</h2>
+  <audio controls>
+    <source src="music/rock/slow.mp3" type="audio/mpeg">
+  </audio>
 
-  <div class="genre"><h2>Rap</h2>
-    <div class="track" data-src="music/rap1.mp3">Rap 1</div>
-  </div>
+  <!-- BALADAS -->
+  <h2>Baladas</h2>
+  <audio controls>
+    <source src="music/baladas/tu-amor.mp3" type="audio/mpeg">
+  </audio>
 
-  <div class="genre"><h2>Rock</h2>
-    <div class="track" data-src="music/rock1.mp3">Rock 1</div>
-  </div>
-
-  <div class="genre"><h2>Baladas</h2>
-    <div class="track" data-src="music/balada1.mp3">Balada 1</div>
-  </div>
-
-  <div class="genre"><h2>Otros</h2>
-    <div class="track" data-src="music/otro1.mp3">Otro</div>
-  </div>
-
-</section>
-
-<div class="player">
-  <div class="bars">
-    <span></span><span></span><span></span><span></span><span></span>
-  </div>
-  <button id="play">▶</button>
-  <span id="title">Selecciona una canción</span>
-  <input type="range" id="progress" value="0">
-  <audio id="audio"></audio>
-</div>
-
-<script src="script.js"></script>
+  <!-- OTRO -->
+  <h2>Otro</h2>
+  <audio controls>
+    <source src="music/otro/archivo1.mp3" type="audio/mpeg">
+  </audio>
 </body>
 </html>
