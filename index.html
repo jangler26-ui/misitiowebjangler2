@@ -11,18 +11,28 @@
 body{
 margin:0;
 font-family:Arial,Helvetica,sans-serif;
-background:linear-gradient(120deg,#0f0c29,#302b63,#24243e);
 color:white;
+background:url('fondo.jpg') center/cover fixed;
+}
+
+#bgCanvas{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+z-index:-1;
+opacity:.35;
+pointer-events:none;
 }
 
 header{
 padding:18px;
 font-size:24px;
 text-align:center;
-background:black;
+background:rgba(0,0,0,.8);
 position:sticky;
 top:0;
-z-index:2;
 }
 
 h2{margin:15px;color:#1db954}
@@ -30,7 +40,7 @@ h2{margin:15px;color:#1db954}
 .cancion{
 padding:16px;
 margin:6px 12px;
-background:#181818;
+background:rgba(0,0,0,.7);
 border-radius:12px;
 font-size:18px;
 cursor:pointer;
@@ -41,7 +51,7 @@ position:fixed;
 bottom:0;
 left:0;
 right:0;
-background:#000;
+background:rgba(0,0,0,.95);
 padding:10px;
 }
 
@@ -56,7 +66,7 @@ animation-play-state:paused;
 }
 
 @keyframes spin{
-from{transform:rotate(0deg)}
+from{transform:rotate(0)}
 to{transform:rotate(360deg)}
 }
 
@@ -66,20 +76,12 @@ background:#333;
 border-radius:6px;
 margin-top:8px;
 cursor:pointer;
-position:relative;
 }
 
 #progreso{
 height:100%;
 width:0%;
 background:#1db954;
-border-radius:6px;
-}
-
-.controles{
-display:flex;
-justify-content:center;
-margin-top:8px;
 }
 
 button{
@@ -89,14 +91,7 @@ padding:12px 20px;
 border-radius:50px;
 font-size:20px;
 color:white;
-}
-
-canvas{
-width:100%;
-height:60px;
-background:black;
-margin-top:6px;
-border-radius:6px;
+margin-top:8px;
 }
 
 .spacer{height:230px;}
@@ -105,6 +100,8 @@ border-radius:6px;
 
 <body>
 
+<canvas id="bgCanvas"></canvas>
+
 <header>🎧 Jangler Music</header>
 
 <h2>Rap</h2>
@@ -112,26 +109,6 @@ border-radius:6px;
 <div class="cancion" data-src="music/rap/apasionado.mp3">Apasionado</div>
 <div class="cancion" data-src="music/rap/asi-es-esto.mp3">Así es esto</div>
 <div class="cancion" data-src="music/rap/callen-la-boca.mp3">Callen la boca</div>
-<div class="cancion" data-src="music/rap/cansado-pero-pa-lante.mp3">Cansado pero pa lante</div>
-<div class="cancion" data-src="music/rap/crudo.mp3">Crudo</div>
-<div class="cancion" data-src="music/rap/ellos-hablan-de-mi.mp3">Ellos hablan de mi</div>
-<div class="cancion" data-src="music/rap/felices-navidades.mp3">Felices navidades</div>
-<div class="cancion" data-src="music/rap/guerreando.mp3">Guerreando</div>
-<div class="cancion" data-src="music/rap/heridas-que-no-sanan.mp3">Heridas que no sanan</div>
-<div class="cancion" data-src="music/rap/la-envidia.mp3">La envidia</div>
-<div class="cancion" data-src="music/rap/la-calle.mp3">La calle</div>
-<div class="cancion" data-src="music/rap/la-lealtad-de-un-amigo.mp3">La lealtad de un amigo</div>
-<div class="cancion" data-src="music/rap/la-presion.mp3">La presión</div>
-<div class="cancion" data-src="music/rap/mi-respaldo.mp3">Mi respaldo</div>
-<div class="cancion" data-src="music/rap/moviendome-en-lo-absurdo.mp3">Moviéndome en lo absurdo</div>
-<div class="cancion" data-src="music/rap/nadie-corre.mp3">Nadie corre</div>
-<div class="cancion" data-src="music/rap/parodia.mp3">Parodia</div>
-<div class="cancion" data-src="music/rap/si-no-te-cuesta-no-es-tuyo.mp3">Si no te cuesta no es tuyo</div>
-<div class="cancion" data-src="music/rap/sonando-la-campana.mp3">Sonando la campana</div>
-<div class="cancion" data-src="music/rap/su-misericordia-me-cubre.mp3">Su misericordia me cubre</div>
-<div class="cancion" data-src="music/rap/vale-la-pena.mp3">Vale la pena</div>
-<div class="cancion" data-src="music/rap/venganza.mp3">Venganza</div>
-<div class="cancion" data-src="music/rap/yo-si-la-sufro.mp3">Yo si la sufro</div>
 
 <h2>Balada</h2>
 <div class="cancion" data-src="music/balada/tu-amor.mp3">Tu amor</div>
@@ -154,16 +131,8 @@ border-radius:6px;
 
 <div class="player">
 <div class="cover" id="cover"></div>
-
-<div class="barra" id="barra">
-<div id="progreso"></div>
-</div>
-
-<div class="controles">
+<div class="barra" id="barra"><div id="progreso"></div></div>
 <button id="play">▶</button>
-</div>
-
-<canvas id="viz"></canvas>
 </div>
 
 <script>
@@ -173,8 +142,9 @@ const progreso=document.getElementById("progreso");
 const barra=document.getElementById("barra");
 const cover=document.getElementById("cover");
 
-let ctx, analyser, buffer, canvas, c;
+let ctx, analyser, buffer;
 
+/* audio init */
 function initAudio(){
 if(ctx)return;
 ctx=new (window.AudioContext||window.webkitAudioContext)();
@@ -182,13 +152,11 @@ const src=ctx.createMediaElementSource(audio);
 analyser=ctx.createAnalyser();
 src.connect(analyser);
 analyser.connect(ctx.destination);
-analyser.fftSize=64;
+analyser.fftSize=128;
 buffer=new Uint8Array(analyser.frequencyBinCount);
-canvas=document.getElementById("viz");
-c=canvas.getContext("2d");
-draw();
 }
 
+/* play canciones */
 document.querySelectorAll(".cancion").forEach(el=>{
 el.onclick=()=>{
 initAudio();
@@ -199,6 +167,7 @@ cover.style.animationPlayState="running";
 };
 });
 
+/* play botón */
 play.onclick=()=>{
 initAudio();
 if(audio.paused){
@@ -212,31 +181,55 @@ cover.style.animationPlayState="paused";
 }
 };
 
+/* progreso */
 audio.ontimeupdate=()=>{
 let p=(audio.currentTime/audio.duration)*100;
 progreso.style.width=p+"%";
 };
 
-barra.addEventListener("click",e=>{
+/* barra deslizable */
+barra.onclick=e=>{
 let rect=barra.getBoundingClientRect();
 let x=e.clientX-rect.left;
-let pct=x/barra.offsetWidth;
-audio.currentTime=pct*audio.duration;
-});
+audio.currentTime=(x/barra.offsetWidth)*audio.duration;
+};
+
+/* fondo reactivo */
+let bg=document.getElementById("bgCanvas");
+let g=bg.getContext("2d");
+
+function resize(){
+bg.width=window.innerWidth;
+bg.height=window.innerHeight;
+}
+resize();
+window.addEventListener("resize",resize);
 
 function draw(){
 requestAnimationFrame(draw);
 if(!analyser)return;
+
 analyser.getByteFrequencyData(buffer);
-c.fillStyle="black";
-c.fillRect(0,0,canvas.width,canvas.height);
-let w=canvas.width/buffer.length;
+g.clearRect(0,0,bg.width,bg.height);
+
+let cx=bg.width/2;
+let cy=bg.height/2;
+
 for(let i=0;i<buffer.length;i++){
-let h=buffer[i];
-c.fillStyle="#1db954";
-c.fillRect(i*w,canvas.height-h,w-2,h);
+let amp=buffer[i];
+let angle=(i/buffer.length)*Math.PI*2;
+let r=80+amp*1.5;
+
+let x=cx+Math.cos(angle)*r;
+let y=cy+Math.sin(angle)*r;
+
+g.beginPath();
+g.arc(x,y,2,0,Math.PI*2);
+g.fillStyle="rgba(0,255,150,.8)";
+g.fill();
 }
 }
+draw();
 </script>
 
 </body>
