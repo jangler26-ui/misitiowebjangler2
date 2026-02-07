@@ -2,228 +2,110 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>Mi Música</title>
+<title>Jangler Music</title>
 
 <style>
-body{
-  margin:0;
-  font-family: Arial, Helvetica, sans-serif;
-  color:white;
-  background:#0d0d0d url('fondo.png') no-repeat center center fixed;
-  background-size:cover;
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  color: white;
+  background: url("fondo.png") no-repeat center center fixed;
+  background-size: cover;
 }
 
-.container{
-  backdrop-filter: blur(12px);
-  background: rgba(0,0,0,0.55);
-  padding:20px;
-  border-radius:18px;
-  margin:20px;
-  animation: fadeIn 1s ease;
+.overlay {
+  background: rgba(0,0,0,0.75);
+  min-height: 100vh;
+  padding: 20px;
 }
 
-h2{
-  color:#1DB954;
+h1 {
+  text-align: center;
+  font-size: 40px;
 }
 
-.cancion{
-  padding:8px;
-  cursor:pointer;
-  border-radius:8px;
-  transition:.25s;
+.categoria {
+  margin-top: 30px;
 }
 
-.cancion:hover{
-  background: rgba(29,185,84,0.25);
-  transform:translateX(5px);
+.categoria h2 {
+  border-bottom: 1px solid #555;
+  padding-bottom: 5px;
 }
 
-.player{
-  position:fixed;
-  bottom:0;
-  left:0;
-  width:100%;
-  background:#121212;
-  padding:12px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  box-shadow:0 -2px 15px rgba(0,0,0,.6);
+.cancion {
+  padding: 8px;
+  cursor: pointer;
+  transition: 0.2s;
 }
 
-button{
-  background:#1DB954;
-  border:none;
-  padding:8px 14px;
-  margin:0 5px;
-  border-radius:50px;
-  cursor:pointer;
-  color:white;
-  font-weight:bold;
-  transition:.2s;
+.cancion:hover {
+  background: #1db954;
 }
 
-button:hover{
-  transform:scale(1.1);
-  background:#1ed760;
-}
-
-.progressbar{
-  width:40%;
-  height:6px;
-  background:#333;
-  border-radius:4px;
-  overflow:hidden;
-}
-
-.progress{
-  height:100%;
-  width:0%;
-  background:#1DB954;
-}
-
-canvas{
-  width:100%;
-  height:100px;
-  display:block;
-}
-
-@keyframes fadeIn{
-  from{opacity:0; transform:translateY(10px);}
-  to{opacity:1; transform:translateY(0);}
+.reproductor {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: #111;
+  padding: 10px;
 }
 </style>
 </head>
 
 <body>
 
-<div class="container">
+<div class="overlay">
 
-<h2>Salsa</h2>
-<div class="cancion" data-src="music/salsa/ejemplo.mp3">Ejemplo Salsa</div>
+<h1>🎵 Jangler Music 🎵</h1>
 
-<h2>Merengue</h2>
-<div class="cancion" data-src="music/merengue/ejemplo.mp3">Ejemplo Merengue</div>
-
+<div class="categoria">
 <h2>Rap</h2>
-<div class="cancion" data-src="music/rap/y-entonces-me-acorde.mp3">y-entonces-me-acorde</div>
 
-<h2>Rock</h2>
-<div class="cancion" data-src="music/rock/slow.mp3">slow</div>
-
-<h2>Baladas</h2>
-<div class="cancion" data-src="music/baladas/tu-amor.mp3">tu-amor</div>
-
-<h2>Otro</h2>
-<div class="cancion" data-src="music/otro/ejemplo.mp3">Otro</div>
+<div class="cancion" data-src="music/rap/algun-dia.mp3">algun-dia</div>
+<div class="cancion" data-src="music/rap/apasionado.mp3">apasionado</div>
+<div class="cancion" data-src="music/rap/asi-es-esto.mp3">asi-es-esto</div>
+<div class="cancion" data-src="music/rap/callen-la-boca.mp3">callen-la-boca</div>
+<div class="cancion" data-src="music/rap/cansado-pero-pa-lante.mp3">cansado-pero-pa-lante</div>
+<div class="cancion" data-src="music/rap/crudo.mp3">crudo</div>
+<div class="cancion" data-src="music/rap/ellos-hablan-de-mi.mp3">ellos-hablan-de-mi</div>
+<div class="cancion" data-src="music/rap/felices-navidades.mp3">felices-navidades</div>
+<div class="cancion" data-src="music/rap/guerreando.mp3">guerreando</div>
+<div class="cancion" data-src="music/rap/heridas-que-no-sanan.mp3">heridas-que-no-sanan</div>
+<div class="cancion" data-src="music/rap/la-envidia.mp3">la-envidia</div>
+<div class="cancion" data-src="music/rap/la-calle.mp3">la-calle</div>
+<div class="cancion" data-src="music/rap/la-lealtad-de-un-amigo.mp3">la-lealtad-de-un-amigo</div>
+<div class="cancion" data-src="music/rap/la-presion.mp3">la-presion</div>
+<div class="cancion" data-src="music/rap/mi-respaldo.mp3">mi-respaldo</div>
+<div class="cancion" data-src="music/rap/moviendome-en-lo-absurdo.mp3">moviendome-en-lo-absurdo</div>
+<div class="cancion" data-src="music/rap/nadie-corre.mp3">nadie-corre</div>
+<div class="cancion" data-src="music/rap/parodia.mp3">parodia</div>
+<div class="cancion" data-src="music/rap/si-no-te-cuesta-no-es-tuyo.mp3">si-no-te-cuesta-no-es-tuyo</div>
+<div class="cancion" data-src="music/rap/sonando-la-campana.mp3">sonando-la-campana</div>
+<div class="cancion" data-src="music/rap/su-misericordia-me-cubre.mp3">su-misericordia-me-cubre</div>
+<div class="cancion" data-src="music/rap/vale-la-pena.mp3">vale-la-pena</div>
+<div class="cancion" data-src="music/rap/venganza.mp3">venganza</div>
+<div class="cancion" data-src="music/rap/yo-si-la-sufro.mp3">yo-si-la-sufro</div>
 
 </div>
 
-<canvas id="visualizer"></canvas>
-
-<div class="player">
-<div id="player-name">Nada reproduciendo</div>
-
-<div>
-<button id="prev">⏮</button>
-<button id="playpause">▶</button>
-<button id="next">⏭</button>
 </div>
 
-<div class="progressbar">
-<div id="progress" class="progress"></div>
+<div class="reproductor">
+<audio id="player" controls style="width:100%"></audio>
 </div>
-</div>
-
-<audio id="player"></audio>
 
 <script>
-const player = document.getElementById('player');
-const playerName = document.getElementById('player-name');
-const progress = document.getElementById('progress');
-const playpause = document.getElementById('playpause');
-const prev = document.getElementById('prev');
-const next = document.getElementById('next');
-const canciones = Array.from(document.querySelectorAll('.cancion'));
-let currentIndex = -1;
+const canciones = document.querySelectorAll(".cancion");
+const player = document.getElementById("player");
 
-const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-const analyser = audioCtx.createAnalyser();
-analyser.fftSize = 256;
-let sourceConnected = false;
-
-function unlockAudio(){
-  if(audioCtx.state === "suspended"){
-    audioCtx.resume();
-  }
-}
-document.body.addEventListener("click", unlockAudio, { once:true });
-
-function playSong(index){
-  const cancion = canciones[index];
-  const src = cancion.getAttribute('data-src');
-
-  player.src = src;
-  player.play().catch(()=>{});
-  playerName.textContent = cancion.textContent;
-  currentIndex = index;
-
-  if(!sourceConnected){
-    const source = audioCtx.createMediaElementSource(player);
-    source.connect(analyser);
-    analyser.connect(audioCtx.destination);
-    sourceConnected = true;
-  }
-}
-
-canciones.forEach((c,i)=>{
-  c.addEventListener('click',()=>playSong(i));
+canciones.forEach(c => {
+  c.addEventListener("click", () => {
+    player.src = c.dataset.src;
+    player.play();
+  });
 });
-
-playpause.addEventListener('click',()=>{
-  if(player.paused) player.play();
-  else player.pause();
-});
-
-next.addEventListener('click',()=>{
-  if(currentIndex < canciones.length-1) playSong(currentIndex+1);
-});
-
-prev.addEventListener('click',()=>{
-  if(currentIndex > 0) playSong(currentIndex-1);
-});
-
-player.addEventListener('timeupdate',()=>{
-  if(player.duration){
-    const percent=(player.currentTime/player.duration)*100;
-    progress.style.width=percent+"%";
-  }
-});
-
-const canvas = document.getElementById('visualizer');
-const ctx = canvas.getContext('2d');
-canvas.width = window.innerWidth;
-canvas.height = 100;
-
-function draw(){
-  requestAnimationFrame(draw);
-  const bufferLength = analyser.frequencyBinCount;
-  const dataArray = new Uint8Array(bufferLength);
-  analyser.getByteFrequencyData(dataArray);
-
-  ctx.clearRect(0,0,canvas.width,canvas.height);
-
-  let barWidth=(canvas.width/bufferLength)*2.5;
-  let x=0;
-
-  for(let i=0;i<bufferLength;i++){
-    const barHeight=dataArray[i];
-    ctx.fillStyle="#1DB954";
-    ctx.fillRect(x,canvas.height-barHeight,barWidth,barHeight);
-    x+=barWidth+1;
-  }
-}
-draw();
 </script>
 
 </body>
