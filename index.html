@@ -10,7 +10,7 @@
 body{
 font-family:Arial;
 color:white;
-overflow:hidden;
+overflow-y:auto; /* ← scroll activado */
 }
 
 /* FONDO ANIMADO */
@@ -38,13 +38,14 @@ left:0;
 width:100%;
 height:100%;
 z-index:-2;
+pointer-events:none;
 }
 
 .overlay{
 background:rgba(0,0,0,.6);
 min-height:100vh;
 padding:20px;
-overflow:auto;
+padding-bottom:80px;
 }
 
 h1{text-align:center;margin-bottom:20px}
@@ -86,17 +87,9 @@ padding:10px;
 <h1>🎵 Jangler Music 🎵</h1>
 
 <div class="categoria">
-<h2>Salsa</h2>
-<div class="cancion" data-src="music/salsa/ejemplo.mp3">ejemplo</div>
-</div>
-
-<div class="categoria">
-<h2>Merengue</h2>
-<div class="cancion" data-src="music/merengue/ejemplo.mp3">ejemplo</div>
-</div>
-
-<div class="categoria">
 <h2>Rap</h2>
+
+<div class="cancion" data-src="music/rap/y-entonces-me-acorde.mp3">y-entonces-me-acorde</div>
 
 <div class="cancion" data-src="music/rap/algun-dia.mp3">algun-dia</div>
 <div class="cancion" data-src="music/rap/apasionado.mp3">apasionado</div>
@@ -123,21 +116,6 @@ padding:10px;
 <div class="cancion" data-src="music/rap/venganza.mp3">venganza</div>
 <div class="cancion" data-src="music/rap/yo-si-la-sufro.mp3">yo-si-la-sufro</div>
 
-</div>
-
-<div class="categoria">
-<h2>Rock</h2>
-<div class="cancion" data-src="music/rock/slow.mp3">slow</div>
-</div>
-
-<div class="categoria">
-<h2>Balada</h2>
-<div class="cancion" data-src="music/balada/tu-amor.mp3">tu-amor</div>
-</div>
-
-<div class="categoria">
-<h2>Otro</h2>
-<div class="cancion" data-src="music/otro/ejemplo.mp3">ejemplo</div>
 </div>
 
 </div>
