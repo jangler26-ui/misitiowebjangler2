@@ -16,8 +16,8 @@ color:white;
 }
 
 header{
-padding:20px;
-font-size:26px;
+padding:18px;
+font-size:24px;
 text-align:center;
 background:black;
 position:sticky;
@@ -45,30 +45,47 @@ background:#000;
 padding:10px;
 }
 
+.cover{
+width:90px;
+height:90px;
+margin:auto;
+border-radius:50%;
+background:url('cover.jpg') center/cover;
+animation:spin 6s linear infinite;
+animation-play-state:paused;
+}
+
+@keyframes spin{
+from{transform:rotate(0deg)}
+to{transform:rotate(360deg)}
+}
+
 .barra{
 height:8px;
 background:#333;
 border-radius:6px;
-overflow:hidden;
+margin-top:8px;
+cursor:pointer;
+position:relative;
 }
 
 #progreso{
 height:100%;
 width:0%;
 background:#1db954;
+border-radius:6px;
 }
 
 .controles{
 display:flex;
-justify-content:space-between;
-align-items:center;
-margin-top:6px;
+justify-content:center;
+margin-top:8px;
 }
 
 button{
 background:#1db954;
 border:none;
-padding:12px 18px;
+padding:12px 20px;
 border-radius:50px;
 font-size:20px;
 color:white;
@@ -82,7 +99,7 @@ margin-top:6px;
 border-radius:6px;
 }
 
-.spacer{height:180px;}
+.spacer{height:230px;}
 </style>
 </head>
 
@@ -91,7 +108,6 @@ border-radius:6px;
 <header>🎧 Jangler Music</header>
 
 <h2>Rap</h2>
-
 <div class="cancion" data-src="music/rap/algun-dia.mp3">Algún día</div>
 <div class="cancion" data-src="music/rap/apasionado.mp3">Apasionado</div>
 <div class="cancion" data-src="music/rap/asi-es-esto.mp3">Así es esto</div>
@@ -120,16 +136,31 @@ border-radius:6px;
 <h2>Balada</h2>
 <div class="cancion" data-src="music/balada/tu-amor.mp3">Tu amor</div>
 
+<h2>Rock</h2>
+<div class="cancion" data-src="music/rock/rock1.mp3">Rock 1</div>
+
+<h2>Salsa</h2>
+<div class="cancion" data-src="music/salsa/salsa1.mp3">Salsa 1</div>
+
+<h2>Merengue</h2>
+<div class="cancion" data-src="music/merengue/merengue1.mp3">Merengue 1</div>
+
+<h2>Otro</h2>
+<div class="cancion" data-src="music/otro/otro1.mp3">Otro 1</div>
+
 <div class="spacer"></div>
 
 <audio id="audio"></audio>
 
 <div class="player">
-<div class="barra"><div id="progreso"></div></div>
+<div class="cover" id="cover"></div>
+
+<div class="barra" id="barra">
+<div id="progreso"></div>
+</div>
 
 <div class="controles">
 <button id="play">▶</button>
-<span id="time">0:00</span>
 </div>
 
 <canvas id="viz"></canvas>
@@ -139,7 +170,8 @@ border-radius:6px;
 const audio=document.getElementById("audio");
 const play=document.getElementById("play");
 const progreso=document.getElementById("progreso");
-const time=document.getElementById("time");
+const barra=document.getElementById("barra");
+const cover=document.getElementById("cover");
 
 let ctx, analyser, buffer, canvas, c;
 
@@ -163,31 +195,38 @@ initAudio();
 audio.src=el.dataset.src;
 audio.play();
 play.textContent="⏸";
+cover.style.animationPlayState="running";
 };
 });
 
 play.onclick=()=>{
 initAudio();
-if(audio.paused){audio.play();play.textContent="⏸"}
-else{audio.pause();play.textContent="▶"}
+if(audio.paused){
+audio.play();
+play.textContent="⏸";
+cover.style.animationPlayState="running";
+}else{
+audio.pause();
+play.textContent="▶";
+cover.style.animationPlayState="paused";
+}
 };
 
 audio.ontimeupdate=()=>{
 let p=(audio.currentTime/audio.duration)*100;
 progreso.style.width=p+"%";
-time.textContent=format(audio.currentTime);
 };
 
-function format(t){
-if(!t)return"0:00";
-let m=Math.floor(t/60);
-let s=Math.floor(t%60);
-if(s<10)s="0"+s;
-return m+":"+s;
-}
+barra.addEventListener("click",e=>{
+let rect=barra.getBoundingClientRect();
+let x=e.clientX-rect.left;
+let pct=x/barra.offsetWidth;
+audio.currentTime=pct*audio.duration;
+});
 
 function draw(){
 requestAnimationFrame(draw);
+if(!analyser)return;
 analyser.getByteFrequencyData(buffer);
 c.fillStyle="black";
 c.fillRect(0,0,canvas.width,canvas.height);
