@@ -6,15 +6,38 @@
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:Arial;background:#000;color:white;overflow:hidden}
 
+body{
+font-family:Arial;
+color:white;
+overflow:hidden;
+}
+
+/* FONDO ANIMADO */
+.fondo{
+position:fixed;
+width:100%;
+height:100%;
+background:linear-gradient(270deg,#0f0c29,#302b63,#24243e);
+background-size:600% 600%;
+animation:gradient 15s ease infinite;
+z-index:-3;
+}
+
+@keyframes gradient{
+0%{background-position:0% 50%}
+50%{background-position:100% 50%}
+100%{background-position:0% 50%}
+}
+
+/* VISUALIZADOR */
 canvas{
 position:fixed;
 top:0;
 left:0;
 width:100%;
 height:100%;
-z-index:-1;
+z-index:-2;
 }
 
 .overlay{
@@ -55,6 +78,7 @@ padding:10px;
 
 <body>
 
+<div class="fondo"></div>
 <canvas id="visualizer"></canvas>
 
 <div class="overlay">
@@ -107,7 +131,7 @@ padding:10px;
 </div>
 
 <div class="categoria">
-<h2>Baladas</h2>
+<h2>Balada</h2>
 <div class="cancion" data-src="music/balada/tu-amor.mp3">tu-amor</div>
 </div>
 
