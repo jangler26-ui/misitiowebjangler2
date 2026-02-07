@@ -5,123 +5,129 @@
 <title>Jangler Music</title>
 
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
-
 body{
-font-family:Arial;
+margin:0;
+font-family:Arial,Helvetica,sans-serif;
 color:white;
-overflow-y:auto; /* ← scroll activado */
+overflow-y:auto;
+background:linear-gradient(-45deg,#0f0c29,#302b63,#24243e,#000);
+background-size:400% 400%;
+animation:fondo 12s ease infinite;
 }
 
-/* FONDO ANIMADO */
-.fondo{
-position:fixed;
-width:100%;
-height:100%;
-background:linear-gradient(270deg,#0f0c29,#302b63,#24243e);
-background-size:600% 600%;
-animation:gradient 15s ease infinite;
-z-index:-3;
-}
-
-@keyframes gradient{
+@keyframes fondo{
 0%{background-position:0% 50%}
 50%{background-position:100% 50%}
 100%{background-position:0% 50%}
 }
 
-/* VISUALIZADOR */
-canvas{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-z-index:-2;
-pointer-events:none;
+h2{
+margin:20px;
+border-left:4px solid #1db954;
+padding-left:10px;
 }
 
-.overlay{
-background:rgba(0,0,0,.6);
-min-height:100vh;
-padding:20px;
-padding-bottom:80px;
+.seccion{
+padding:10px 20px;
 }
-
-h1{text-align:center;margin-bottom:20px}
-
-.categoria{margin-top:25px}
-.categoria h2{border-bottom:1px solid #555;margin-bottom:10px}
 
 .cancion{
 padding:8px;
 margin:4px 0;
-cursor:pointer;
+background:rgba(255,255,255,0.05);
 border-radius:6px;
-transition:.25s;
+cursor:pointer;
+transition:0.2s;
 }
 
 .cancion:hover{
 background:#1db954;
-transform:scale(1.05);
 }
 
-.reproductor{
+.player{
 position:fixed;
 bottom:0;
 left:0;
-width:100%;
+right:0;
 background:#111;
 padding:10px;
+display:flex;
+flex-direction:column;
+}
+
+.barra{
+height:6px;
+background:#333;
+cursor:pointer;
+border-radius:4px;
+overflow:hidden;
+}
+
+#progreso{
+height:100%;
+width:0%;
+background:#1db954;
+}
+
+.controles{
+display:flex;
+align-items:center;
+justify-content:space-between;
+margin-top:6px;
+}
+
+button{
+background:#1db954;
+border:none;
+padding:8px 14px;
+border-radius:20px;
+color:white;
+font-size:16px;
+cursor:pointer;
+}
+
+canvas{
+width:100%;
+height:60px;
+background:black;
+margin-top:6px;
 }
 </style>
 </head>
 
 <body>
 
-<div class="fondo"></div>
-<canvas id="visualizer"></canvas>
-
-<div class="overlay">
-
-<h1>🎵 Jangler Music 🎵</h1>
-
-<div class="categoria">
 <h2>Rap</h2>
-
-<div class="cancion" data-src="music/rap/y-entonces-me-acorde.mp3">y-entonces-me-acorde</div>
-
-<div class="cancion" data-src="music/rap/algun-dia.mp3">algun-dia</div>
-<div class="cancion" data-src="music/rap/apasionado.mp3">apasionado</div>
-<div class="cancion" data-src="music/rap/asi-es-esto.mp3">asi-es-esto</div>
-<div class="cancion" data-src="music/rap/callen-la-boca.mp3">callen-la-boca</div>
-<div class="cancion" data-src="music/rap/cansado-pero-pa-lante.mp3">cansado-pero-pa-lante</div>
-<div class="cancion" data-src="music/rap/crudo.mp3">crudo</div>
-<div class="cancion" data-src="music/rap/ellos-hablan-de-mi.mp3">ellos-hablan-de-mi</div>
-<div class="cancion" data-src="music/rap/felices-navidades.mp3">felices-navidades</div>
-<div class="cancion" data-src="music/rap/guerreando.mp3">guerreando</div>
-<div class="cancion" data-src="music/rap/heridas-que-no-sanan.mp3">heridas-que-no-sanan</div>
-<div class="cancion" data-src="music/rap/la-envidia.mp3">la-envidia</div>
-<div class="cancion" data-src="music/rap/la-calle.mp3">la-calle</div>
-<div class="cancion" data-src="music/rap/la-lealtad-de-un-amigo.mp3">la-lealtad-de-un-amigo</div>
-<div class="cancion" data-src="music/rap/la-presion.mp3">la-presion</div>
-<div class="cancion" data-src="music/rap/mi-respaldo.mp3">mi-respaldo</div>
-<div class="cancion" data-src="music/rap/moviendome-en-lo-absurdo.mp3">moviendome-en-lo-absurdo</div>
-<div class="cancion" data-src="music/rap/nadie-corre.mp3">nadie-corre</div>
-<div class="cancion" data-src="music/rap/parodia.mp3">parodia</div>
-<div class="cancion" data-src="music/rap/si-no-te-cuesta-no-es-tuyo.mp3">si-no-te-cuesta-no-es-tuyo</div>
-<div class="cancion" data-src="music/rap/sonando-la-campana.mp3">sonando-la-campana</div>
-<div class="cancion" data-src="music/rap/su-misericordia-me-cubre.mp3">su-misericordia-me-cubre</div>
-<div class="cancion" data-src="music/rap/vale-la-pena.mp3">vale-la-pena</div>
-<div class="cancion" data-src="music/rap/venganza.mp3">venganza</div>
-<div class="cancion" data-src="music/rap/yo-si-la-sufro.mp3">yo-si-la-sufro</div>
-
+<div class="seccion" id="rap">
+<div class="cancion" data-src="music/rap/algun-dia.mp3">Algún día</div>
+<div class="cancion" data-src="music/rap/apasionado.mp3">Apasionado</div>
+<div class="cancion" data-src="music/rap/asi-es-esto.mp3">Así es esto</div>
+<div class="cancion" data-src="music/rap/callen-la-boca.mp3">Callen la boca</div>
+<div class="cancion" data-src="music/rap/cansado-pero-pa-lante.mp3">Cansado pero pa Lante</div>
 </div>
 
+<h2>Balada</h2>
+<div class="seccion">
+<div class="cancion" data-src="music/balada/tu-amor.mp3">Tu amor</div>
 </div>
 
-<div class="reproductor">
-<audio id="player" controls style="width:100%"></audio>
+<h2>Rock</h2>
+<div class="seccion">
+<div class="cancion" data-src="music/rock/rock1.mp3">Rock 1</div>
+</div>
+
+<audio id="player"></audio>
+
+<div class="player">
+<div class="barra"><div id="progreso"></div></div>
+
+<div class="controles">
+<button id="playBtn">▶</button>
+<span id="current">0:00</span>
+<span id="duracion">0:00</span>
+</div>
+
+<canvas id="viz"></canvas>
 </div>
 
 <script>
@@ -132,22 +138,14 @@ const barra=document.querySelector(".barra");
 const current=document.getElementById("current");
 const duracion=document.getElementById("duracion");
 
-/* play / pausa */
 playBtn.onclick=()=>{
-if(audio.paused){
-audio.play();
-playBtn.textContent="⏸";
-}else{
-audio.pause();
-playBtn.textContent="▶";
-}
+if(audio.paused){audio.play();playBtn.textContent="⏸"}
+else{audio.pause();playBtn.textContent="▶"}
 };
 
-/* progreso */
 audio.ontimeupdate=()=>{
 let p=(audio.currentTime/audio.duration)*100;
 progreso.style.width=p+"%";
-
 current.textContent=format(audio.currentTime);
 duracion.textContent=format(audio.duration);
 };
@@ -166,16 +164,41 @@ if(s<10)s="0"+s;
 return m+":"+s;
 }
 
-/* 🎵 ESTE BLOQUE HACE FUNCIONAR TODAS LAS CANCIONES */
 document.querySelectorAll(".cancion").forEach(c=>{
-c.addEventListener("click",()=>{
+c.onclick=()=>{
 audio.src=c.dataset.src;
 audio.play();
 playBtn.textContent="⏸";
+};
 });
-});
-</script>
 
+/* visualizador */
+const ctx=new (window.AudioContext||window.webkitAudioContext)();
+const src=ctx.createMediaElementSource(audio);
+const analyser=ctx.createAnalyser();
+src.connect(analyser);
+analyser.connect(ctx.destination);
+
+const canvas=document.getElementById("viz");
+const c=canvas.getContext("2d");
+analyser.fftSize=64;
+const buffer=new Uint8Array(analyser.frequencyBinCount);
+
+function draw(){
+requestAnimationFrame(draw);
+analyser.getByteFrequencyData(buffer);
+c.fillStyle="black";
+c.fillRect(0,0,canvas.width,canvas.height);
+let w=canvas.width/buffer.length;
+
+for(let i=0;i<buffer.length;i++){
+let h=buffer[i];
+c.fillStyle="#1db954";
+c.fillRect(i*w,canvas.height-h,w-2,h);
+}
+}
+draw();
+</script>
 
 </body>
 </html>
