@@ -2,45 +2,52 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Jangler Music</title>
 
 <style>
+*{box-sizing:border-box}
+
 body{
 margin:0;
 font-family:Arial,Helvetica,sans-serif;
+background:linear-gradient(120deg,#0f0c29,#302b63,#24243e);
 color:white;
 overflow-y:auto;
-background:linear-gradient(-45deg,#0f0c29,#302b63,#24243e,#000);
-background-size:400% 400%;
-animation:fondo 12s ease infinite;
 }
 
-@keyframes fondo{
-0%{background-position:0% 50%}
-50%{background-position:100% 50%}
-100%{background-position:0% 50%}
+header{
+padding:20px;
+font-size:28px;
+font-weight:bold;
+text-align:center;
+background:black;
+position:sticky;
+top:0;
+z-index:2;
 }
 
 h2{
-margin:20px;
-border-left:4px solid #1db954;
-padding-left:10px;
+margin:20px 15px 10px;
+font-size:20px;
+color:#1db954;
 }
 
 .seccion{
-padding:10px 20px;
+padding:0 10px 20px;
 }
 
 .cancion{
-padding:8px;
-margin:4px 0;
-background:rgba(255,255,255,0.05);
-border-radius:6px;
+padding:16px;
+margin:6px 0;
+background:#181818;
+border-radius:12px;
+font-size:18px;
 cursor:pointer;
-transition:0.2s;
+transition:.2s;
 }
 
-.cancion:hover{
+.cancion:active{
 background:#1db954;
 }
 
@@ -49,18 +56,19 @@ position:fixed;
 bottom:0;
 left:0;
 right:0;
-background:#111;
+background:#000;
 padding:10px;
 display:flex;
 flex-direction:column;
+z-index:3;
 }
 
 .barra{
-height:6px;
+height:8px;
 background:#333;
-cursor:pointer;
-border-radius:4px;
+border-radius:6px;
 overflow:hidden;
+margin-bottom:8px;
 }
 
 #progreso{
@@ -73,17 +81,20 @@ background:#1db954;
 display:flex;
 align-items:center;
 justify-content:space-between;
-margin-top:6px;
 }
 
 button{
 background:#1db954;
 border:none;
-padding:8px 14px;
-border-radius:20px;
+padding:12px 18px;
+border-radius:50px;
+font-size:20px;
 color:white;
-font-size:16px;
-cursor:pointer;
+}
+
+.tiempo{
+font-size:14px;
+opacity:.8;
 }
 
 canvas{
@@ -91,19 +102,25 @@ width:100%;
 height:60px;
 background:black;
 margin-top:6px;
+border-radius:6px;
+}
+
+.spacer{
+height:160px;
 }
 </style>
 </head>
 
 <body>
 
+<header>🎧 Jangler Music</header>
+
 <h2>Rap</h2>
-<div class="seccion" id="rap">
+<div class="seccion">
 <div class="cancion" data-src="music/rap/algun-dia.mp3">Algún día</div>
 <div class="cancion" data-src="music/rap/apasionado.mp3">Apasionado</div>
 <div class="cancion" data-src="music/rap/asi-es-esto.mp3">Así es esto</div>
 <div class="cancion" data-src="music/rap/callen-la-boca.mp3">Callen la boca</div>
-<div class="cancion" data-src="music/rap/cansado-pero-pa-lante.mp3">Cansado pero pa Lante</div>
 </div>
 
 <h2>Balada</h2>
@@ -116,61 +133,58 @@ margin-top:6px;
 <div class="cancion" data-src="music/rock/rock1.mp3">Rock 1</div>
 </div>
 
-<audio id="player"></audio>
+<div class="spacer"></div>
+
+<audio id="audio"></audio>
 
 <div class="player">
 <div class="barra"><div id="progreso"></div></div>
 
 <div class="controles">
-<button id="playBtn">▶</button>
-<span id="current">0:00</span>
-<span id="duracion">0:00</span>
+<button id="play">▶</button>
+<div class="tiempo">
+<span id="cur">0:00</span> /
+<span id="dur">0:00</span>
+</div>
 </div>
 
 <canvas id="viz"></canvas>
 </div>
 
 <script>
-const audio=document.getElementById("player");
-const playBtn=document.getElementById("playBtn");
+const audio=document.getElementById("audio");
+const play=document.getElementById("play");
 const progreso=document.getElementById("progreso");
-const barra=document.querySelector(".barra");
-const current=document.getElementById("current");
-const duracion=document.getElementById("duracion");
+const cur=document.getElementById("cur");
+const dur=document.getElementById("dur");
 
-playBtn.onclick=()=>{
-if(audio.paused){audio.play();playBtn.textContent="⏸"}
-else{audio.pause();playBtn.textContent="▶"}
+document.querySelectorAll(".cancion").forEach(c=>{
+c.onclick=()=>{
+audio.src=c.dataset.src;
+audio.play();
+play.textContent="⏸";
+};
+});
+
+play.onclick=()=>{
+if(audio.paused){audio.play();play.textContent="⏸"}
+else{audio.pause();play.textContent="▶"}
 };
 
 audio.ontimeupdate=()=>{
 let p=(audio.currentTime/audio.duration)*100;
 progreso.style.width=p+"%";
-current.textContent=format(audio.currentTime);
-duracion.textContent=format(audio.duration);
+cur.textContent=f(audio.currentTime);
+dur.textContent=f(audio.duration);
 };
 
-barra.onclick=e=>{
-let rect=barra.getBoundingClientRect();
-let x=e.clientX-rect.left;
-audio.currentTime=(x/barra.offsetWidth)*audio.duration;
-};
-
-function format(t){
+function f(t){
 if(!t)return"0:00";
 let m=Math.floor(t/60);
 let s=Math.floor(t%60);
 if(s<10)s="0"+s;
 return m+":"+s;
 }
-
-document.querySelectorAll(".cancion").forEach(c=>{
-c.onclick=()=>{
-audio.src=c.dataset.src;
-audio.play();
-playBtn.textContent="⏸";
-};
-});
 
 /* visualizador */
 const ctx=new (window.AudioContext||window.webkitAudioContext)();
@@ -189,8 +203,8 @@ requestAnimationFrame(draw);
 analyser.getByteFrequencyData(buffer);
 c.fillStyle="black";
 c.fillRect(0,0,canvas.width,canvas.height);
-let w=canvas.width/buffer.length;
 
+let w=canvas.width/buffer.length;
 for(let i=0;i<buffer.length;i++){
 let h=buffer[i];
 c.fillStyle="#1db954";
