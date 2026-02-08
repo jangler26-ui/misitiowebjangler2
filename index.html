@@ -6,15 +6,17 @@
 <title>Jangler Music</title>
 
 <style>
+<style>
 *{box-sizing:border-box}
 
 body{
 margin:0;
-font-family:Arial,Helvetica,sans-serif;
+font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;
 color:white;
-background:url('fondo.jpg') center/cover fixed;
+/* NO tocamos tu fondo actual */
 }
 
+/* Canvas visualizador se mantiene */
 #bgCanvas{
 position:fixed;
 top:0;
@@ -22,46 +24,29 @@ left:0;
 width:100%;
 height:100%;
 z-index:-1;
-opacity:.35;
+opacity:.25;
 pointer-events:none;
 }
 
+/* Header tipo app */
 header{
-padding:18px;
-font-size:24px;
+padding:22px;
+font-size:30px;
 text-align:center;
-background:rgba(0,0,0,.8);
-position:sticky;
-top:0;
+background:rgba(10,10,10,.65);
+backdrop-filter:blur(10px);
+letter-spacing:1px;
 }
 
-h2{margin:15px;color:#1db954}
-
-.cancion{
-padding:16px;
-margin:6px 12px;
-background:rgba(0,0,0,.7);
-border-radius:12px;
-font-size:18px;
-cursor:pointer;
-}
-
-.player{
-position:fixed;
-bottom:0;
-left:0;
-right:0;
-background:rgba(0,0,0,.95);
-padding:10px;
-}
-
+/* portada grande */
 .cover{
-width:90px;
-height:90px;
-margin:auto;
-border-radius:50%;
+width:220px;
+height:220px;
+margin:20px auto;
+border-radius:18px;
 background:url('cover.jpg') center/cover;
-animation:spin 6s linear infinite;
+box-shadow:0 0 30px #000;
+animation:spin 10s linear infinite;
 animation-play-state:paused;
 }
 
@@ -70,31 +55,76 @@ from{transform:rotate(0)}
 to{transform:rotate(360deg)}
 }
 
+/* títulos */
+h2{
+margin:22px;
+font-size:24px;
+}
+
+/* tarjetas grandes estilo YouTube Music */
+.cancion{
+padding:22px;
+margin:14px 18px;
+font-size:22px;
+border-radius:18px;
+background:rgba(20,20,20,.7);
+backdrop-filter:blur(6px);
+cursor:pointer;
+transition:.25s;
+}
+
+.cancion:hover{
+background:#ff0033;
+transform:scale(1.03);
+}
+
+/* reproductor */
+.player{
+position:fixed;
+bottom:0;
+left:0;
+right:0;
+background:rgba(0,0,0,.75);
+backdrop-filter:blur(12px);
+padding:16px;
+border-top:1px solid #222;
+}
+
+/* barra progreso */
 .barra{
-height:8px;
+height:10px;
 background:#333;
-border-radius:6px;
-margin-top:8px;
+border-radius:8px;
+margin-top:12px;
+overflow:hidden;
 cursor:pointer;
 }
 
 #progreso{
 height:100%;
 width:0%;
-background:#1db954;
+background:#ff0033;
+transition:width .1s linear;
 }
 
 button{
-background:#1db954;
+background:#ff0033;
 border:none;
-padding:12px 20px;
+padding:14px 26px;
 border-radius:50px;
-font-size:20px;
+font-size:22px;
 color:white;
-margin-top:8px;
+margin-top:12px;
+cursor:pointer;
 }
 
-.spacer{height:230px;}
+button:hover{
+filter:brightness(1.2);
+}
+
+.spacer{height:260px;}
+</style>
+
 </style>
 </head>
 
