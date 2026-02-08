@@ -126,6 +126,7 @@ filter:brightness(1.2);
 <body>
 
 <canvas id="bgCanvas"></canvas>
+<div class="app">
 
 <header>🎧 Jangler Music</header>
 
@@ -155,18 +156,16 @@ filter:brightness(1.2);
 <div class="cancion" data-src="music/rap/venganza.mp3">Venganza</div>
 <div class="cancion" data-src="music/rap/yo-si-la-sufro.mp3">Yo si la sufro</div>
 
-
 <h2>Balada</h2>
 <div class="cancion" data-src="music/balada/tu-amor.mp3">Tu amor</div>
 
 <h2>Rock</h2>
-<div class="cancion" data-src="music/rock/cicatrices-en-marcha.mp3">cicatrices-en-marcha</div>
-<div class="cancion" data-src="music/rock/hierro-en-la-sangre.mp3">hierro-en-la-sangre</div>
-<div class="cancion" data-src="music/rock/juan-3-16.mp3">juan-3-16</div>
-<div class="cancion" data-src="music/rock/la-voz-de-cemento.mp3">la-voz-de-cemento</div>
-<div class="cancion" data-src="music/rock/salmo-23.mp3">salmo-23</div>
-<div class="cancion" data-src="music/rock/slow.mp3">slow</div>
-
+<div class="cancion" data-src="music/rock/cicatrices-en-marcha.mp3">Cicatrices en marcha</div>
+<div class="cancion" data-src="music/rock/hierro-en-la-sangre.mp3">Hierro en la sangre</div>
+<div class="cancion" data-src="music/rock/juan-3-16.mp3">Juan 3.16</div>
+<div class="cancion" data-src="music/rock/la-voz-de-cemento.mp3">La voz de cemento</div>
+<div class="cancion" data-src="music/rock/salmo-23.mp3">Salmo 23</div>
+<div class="cancion" data-src="music/rock/slow.mp3">Slow</div>
 
 <h2>Salsa</h2>
 <div class="cancion" data-src="music/salsa/salsa1.mp3">Salsa 1</div>
@@ -177,15 +176,8 @@ filter:brightness(1.2);
 <h2>Otro</h2>
 <div class="cancion" data-src="music/otro/otro1.mp3">Otro 1</div>
 
-<div class="spacer"></div>
-
-<audio id="audio"></audio>
-
-<div class="player">
-<div class="cover" id="cover"></div>
-<div class="barra" id="barra"><div id="progreso"></div></div>
-<button id="play">▶</button>
 </div>
+
 
 <script>
 const audio=document.getElementById("audio");
