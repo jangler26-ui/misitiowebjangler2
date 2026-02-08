@@ -175,20 +175,44 @@ g.clearRect(0,0,bg.width,bg.height);
 let cx=bg.width/2;
 let cy=bg.height/2;
 
+let bass=buffer[2]*2;
+
+/* fondo pulsante */
+let grad=g.createRadialGradient(cx,cy,50,cx,cy,400);
+grad.addColorStop(0,`rgba(${bass},0,255,.25)`);
+grad.addColorStop(1,"black");
+g.fillStyle=grad;
+g.fillRect(0,0,bg.width,bg.height);
+
+/* anillo rave */
 for(let i=0;i<buffer.length;i++){
 let amp=buffer[i];
 let angle=(i/buffer.length)*Math.PI*2;
-let r=80+amp*1.5;
+let r=120+amp*1.8;
 
 let x=cx+Math.cos(angle)*r;
 let y=cy+Math.sin(angle)*r;
 
 g.beginPath();
-g.arc(x,y,2,0,Math.PI*2);
-g.fillStyle="rgba(0,255,150,.8)";
+g.arc(x,y,3,0,Math.PI*2);
+g.fillStyle=`hsl(${i*8},100%,60%)`;
+g.fill();
+}
+
+/* partículas flotantes */
+for(let i=0;i<40;i++){
+let a=Math.random()*Math.PI*2;
+let d=200+Math.random()*200;
+let x=cx+Math.cos(a)*d;
+let y=cy+Math.sin(a)*d;
+
+g.beginPath();
+g.arc(x,y,1.5,0,Math.PI*2);
+g.fillStyle="rgba(255,255,255,.4)";
 g.fill();
 }
 }
+
 draw();
 </script>
 
