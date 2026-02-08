@@ -189,6 +189,21 @@ filter:brightness(1.2);
 
 <script>
 const audio=document.getElementById("audio");
+const canciones = Array.from(document.querySelectorAll(".cancion"));
+let actual = 0;
+
+canciones.forEach((c,i)=>{
+  c.addEventListener("click",()=>{
+    actual = i;
+  });
+});
+
+audio.addEventListener("ended",()=>{
+  actual++;
+  if(actual >= canciones.length) actual = 0;
+  canciones[actual].click();
+});
+
 const play=document.getElementById("play");
 const progreso=document.getElementById("progreso");
 const barra=document.getElementById("barra");
