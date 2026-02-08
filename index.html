@@ -69,6 +69,48 @@ transition:.25s;
 background:#ff0033;
 transform:scale(1.03);
 }
+.player{
+position:fixed;
+bottom:0;
+left:0;
+right:0;
+background:rgba(0,0,0,.8);
+backdrop-filter:blur(12px);
+padding:14px;
+display:flex;
+flex-direction:column;
+gap:10px;
+z-index:5;
+}
+
+.player button{
+font-size:22px;
+padding:10px 16px;
+border:none;
+border-radius:10px;
+background:#ff0033;
+color:white;
+cursor:pointer;
+}
+
+#volumen{
+width:100%;
+}
+
+.barra{
+height:8px;
+background:#333;
+border-radius:6px;
+overflow:hidden;
+cursor:pointer;
+}
+
+#progreso{
+height:100%;
+width:0%;
+background:#ff0033;
+}
+
 </style>
 </head>
 
@@ -119,9 +161,71 @@ transform:scale(1.03);
 </div>
 
 <audio id="audio"></audio>
+<div class="player">
+
+<button id="prev">⏮</button>
+<button id="play">▶</button>
+<button id="next">⏭</button>
+
+<input type="range" id="volumen" min="0" max="1" step="0.01" value="1">
+
+<div id="barra" class="barra">
+<div id="progreso"></div>
+</div>
+
+</div>
 
 <script>
 const audio=document.getElementById("audio");
+const playBtn=document.getElementById("play");
+const nextBtn=document.getElementById("next");
+const prevBtn=document.getElementById("prev");
+const volumen=document.getElementById("volumen");
+const barra=document.getElementById("barra");
+const progreso=document.getElementById("progreso");
+
+/* play pausa */
+playBtn.onclick=()=>{
+if(audio.paused){
+audio.play();
+playBtn.textContent="⏸";
+}else{
+audio.pause();
+playBtn.textContent="▶";
+}
+};
+
+/* siguiente */
+nextBtn.onclick=()=>{
+actual++;
+if(actual>=canciones.length)actual=0;
+canciones[actual].click();
+};
+
+/* anterior */
+prevBtn.onclick=()=>{
+actual--;
+if(actual<0)actual=canciones.length-1;
+canciones[actual].click();
+};
+
+/* volumen */
+volumen.oninput=()=>{
+audio.volume=volumen.value;
+};
+
+/* progreso */
+audio.ontimeupdate=()=>{
+let p=(audio.currentTime/audio.duration)*100;
+progreso.style.width=p+"%";
+};
+
+barra.onclick=e=>{
+let rect=barra.getBoundingClientRect();
+let x=e.clientX-rect.left;
+audio.currentTime=(x/barra.offsetWidth)*audio.duration;
+};
+
 const canciones=Array.from(document.querySelectorAll(".cancion"));
 let actual=0;
 
