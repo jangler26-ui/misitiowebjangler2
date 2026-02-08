@@ -13,40 +13,44 @@ body{
 margin:0;
 font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;
 color:white;
-/* NO tocamos tu fondo actual */
+
+/* recuperamos tu fondo animado */
+background:linear-gradient(270deg,#0f0c29,#302b63,#24243e);
+background-size:600% 600%;
+animation:fondo 15s ease infinite;
+overflow-x:hidden;
 }
 
-/* Canvas visualizador se mantiene */
-#bgCanvas{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-z-index:-1;
-opacity:.25;
-pointer-events:none;
+@keyframes fondo{
+0%{background-position:0% 50%}
+50%{background-position:100% 50%}
+100%{background-position:0% 50%}
 }
 
-/* Header tipo app */
+/* contenedor tipo app móvil */
+.app{
+max-width:520px;
+margin:auto;
+padding-bottom:240px;
+}
+
+/* header */
 header{
-padding:22px;
-font-size:30px;
 text-align:center;
-background:rgba(10,10,10,.65);
-backdrop-filter:blur(10px);
+font-size:28px;
+padding:18px;
 letter-spacing:1px;
 }
 
 /* portada grande */
 .cover{
-width:220px;
-height:220px;
-margin:20px auto;
+width:240px;
+height:240px;
+margin:10px auto 20px;
 border-radius:18px;
 background:url('cover.jpg') center/cover;
 box-shadow:0 0 30px #000;
-animation:spin 10s linear infinite;
+animation:spin 12s linear infinite;
 animation-play-state:paused;
 }
 
@@ -55,20 +59,14 @@ from{transform:rotate(0)}
 to{transform:rotate(360deg)}
 }
 
-/* títulos */
-h2{
-margin:22px;
-font-size:24px;
-}
-
-/* tarjetas grandes estilo YouTube Music */
+/* canciones */
 .cancion{
-padding:22px;
-margin:14px 18px;
+padding:20px;
+margin:10px 14px;
 font-size:22px;
 border-radius:18px;
-background:rgba(20,20,20,.7);
-backdrop-filter:blur(6px);
+background:rgba(0,0,0,.45);
+backdrop-filter:blur(8px);
 cursor:pointer;
 transition:.25s;
 }
@@ -78,15 +76,15 @@ background:#ff0033;
 transform:scale(1.03);
 }
 
-/* reproductor */
+/* reproductor fijo abajo */
 .player{
 position:fixed;
 bottom:0;
 left:0;
 right:0;
-background:rgba(0,0,0,.75);
+background:rgba(0,0,0,.8);
 backdrop-filter:blur(12px);
-padding:16px;
+padding:18px;
 border-top:1px solid #222;
 }
 
@@ -104,7 +102,6 @@ cursor:pointer;
 height:100%;
 width:0%;
 background:#ff0033;
-transition:width .1s linear;
 }
 
 button{
@@ -121,8 +118,6 @@ cursor:pointer;
 button:hover{
 filter:brightness(1.2);
 }
-
-.spacer{height:260px;}
 </style>
 
 </style>
